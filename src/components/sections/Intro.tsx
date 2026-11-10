@@ -123,7 +123,7 @@ export default function Intro() {
         src="/photos/prayer-flags.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute right-[1.5%] top-[58px] z-20 hidden w-[36vw] max-w-[560px] origin-top lg:block"
+        className="pointer-events-none absolute right-[1.5%] top-[58px] z-20 hidden w-[min(36vw,60svh)] max-w-[560px] origin-top lg:block"
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0, rotate: [0, 1.2, -0.8, 0] }}
         transition={{
@@ -190,7 +190,7 @@ export default function Intro() {
         {/* mobile / tablet composition */}
         <div className="flex w-full flex-col items-center text-center lg:hidden">
           <Word text="Hello" delay={0.3} className="text-[clamp(4rem,18vw,8rem)]" />
-          <div className="my-6 h-[46svh] max-h-[460px]">
+          <div className="mt-8 mb-14 h-[44svh] max-h-[440px]">
             <Portrait />
           </div>
           <div className="text-[clamp(1.2rem,5vw,1.8rem)]">

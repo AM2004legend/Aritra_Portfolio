@@ -1,16 +1,23 @@
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { lazy, Suspense, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { profile } from "../../data/content";
 import { Arrow, ease, Magnetic, Reveal, SplitText } from "../ui/motion";
 import { TravelSkyline } from "../decor/Ornaments";
 import { useOpenResume } from "../layout/ResumeModal";
 
-const InkSphere = lazy(() => import("../decor/InkSphere"));
+const loadSphere = () => import("../decor/InkSphere");
+const InkSphere = lazy(loadSphere);
 
 export default function Contact() {
   const openResume = useOpenResume();
   const ref = useRef<HTMLElement>(null);
   const near = useInView(ref, { once: true, margin: "400px" });
+
+  // the 3D sphere is a large chunk; start downloading it once the page is idle
+  useEffect(() => {
+    const t = window.setTimeout(() => void loadSphere(), 4000);
+    return () => window.clearTimeout(t);
+  }, []);
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
@@ -26,7 +33,7 @@ export default function Contact() {
   return (
     <section id="contact" ref={ref} className="relative overflow-hidden border-t border-sand">
       {/* 3D sphere of navy dots, loaded only when close */}
-      <div className="pointer-events-none absolute right-[-35%] top-10 h-[90vw] w-[90vw] opacity-60 md:right-[-6%] md:top-[4%] md:h-[42rem] md:w-[42rem] md:opacity-100">
+      <div className="pointer-events-none absolute right-[-48%] top-[-2%] h-[78vw] w-[78vw] opacity-25 md:right-[-6%] md:top-[4%] md:h-[42rem] md:w-[42rem] md:opacity-100">
         {near && (
           <Suspense fallback={null}>
             <motion.div className="h-full w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }}>

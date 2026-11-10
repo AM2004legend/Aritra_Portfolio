@@ -13,6 +13,15 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const show = useCallback(() => setOpen(true), []);
 
+  // fetch the résumé preview quietly once the page is idle, so the pop-up opens filled
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      const img = new Image();
+      img.src = "/resume-page-1.webp";
+    }, 2500);
+    return () => window.clearTimeout(t);
+  }, []);
+
   useEffect(() => {
     lockScroll(open);
     if (!open) return;
@@ -85,7 +94,7 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
                 <motion.img
                   src="/resume-page-1.webp"
                   alt="Résumé of Aritra Maity"
-                  className="mx-auto w-full rounded-md bg-white shadow-[0_10px_40px_-12px_rgba(29,27,24,0.25)]"
+                  className="mx-auto aspect-[1654/2339] w-full rounded-md bg-white shadow-[0_10px_40px_-12px_rgba(29,27,24,0.25)]"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, ease, delay: 0.15 }}
