@@ -49,12 +49,12 @@ export default function Contact() {
         </Reveal>
 
         <h2 className="mt-5 max-w-[12ch] font-[family-name:var(--font-poster)] text-[clamp(3.2rem,8.6vw,7.6rem)] leading-[0.9] uppercase text-ink [&_.italic]:not-italic">
-          <SplitText text="Let’s talk over" />{" "}
-          <SplitText text="cha." delay={0.25} className="italic text-navy" />
+          <SplitText text="Let’s" />{" "}
+          <SplitText text="connect." delay={0.2} className="italic text-navy" />
         </h2>
         <Reveal delay={0.1}>
           <p className="mt-6 max-w-md text-lg font-normal text-ink-2">
-            Open to internships, and always up for a long adda about systems, data or the next trek.
+            Open to internships and collaborations. The best way to reach me is email.
           </p>
         </Reveal>
 

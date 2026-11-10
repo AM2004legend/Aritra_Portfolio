@@ -2,6 +2,15 @@ import { motion } from "framer-motion";
 import { travel, type Polaroid } from "../../data/content";
 import { Chapter, ease, Reveal } from "../ui/motion";
 
+const BOARD_TEXTURE = [
+  // fine fibres and speckles
+  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.33  0 0 0 0 0.22  0 0 0 0 0.1  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>\")",
+  // larger, softer mottling so it reads as paper, not flat colour
+  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='8' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42  0 0 0 0 0.29  0 0 0 0 0.13  0 0 0 0.7 -0.12'/></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>\")",
+  // faint dark specks
+  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='s'><feTurbulence type='turbulence' baseFrequency='0.6' numOctaves='1' seed='21'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.12  0 0 0 0 0.06  0 0 0 12 -10.4'/></filter><rect width='100%' height='100%' filter='url(%23s)'/></svg>\")",
+].join(",");
+
 const tilts = [-3, 2, -1.5, 3, 2.5, -2, 1.5, -2.5];
 const tapes = ["-rotate-6", "rotate-3", "-rotate-2", "rotate-6"];
 
@@ -47,7 +56,7 @@ export default function Travel() {
       <div className="mx-auto max-w-[1200px] px-5 pt-8 pb-24 md:px-10 md:pt-10 md:pb-28">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <Chapter n="04" label="Travel">
-            Places I’ve <span className="italic text-navy">been.</span>
+            Wander-<span className="italic text-navy">lust</span>
           </Chapter>
           <Reveal className="md:mb-16 md:max-w-xs">
             <p className="text-[1.05rem] leading-relaxed text-ink-2">A board of places I’ve been, and room for the next ones.</p>
@@ -55,8 +64,12 @@ export default function Travel() {
         </div>
 
         {/* the board */}
-        <div className="rounded-[28px] border border-sand bg-cream-2 p-6 shadow-[inset_0_2px_14px_rgba(23,48,107,0.12)] sm:p-10 md:p-12">
-          <div className="grid grid-cols-2 gap-x-5 gap-y-9 sm:gap-x-8 md:grid-cols-4 md:gap-y-12">
+        <div
+          className="relative overflow-hidden rounded-[28px] border border-sand bg-[#e6d8bd] p-6 shadow-[inset_0_2px_18px_rgba(60,40,15,0.18),0_18px_40px_-28px_rgba(23,48,107,0.4)] sm:p-10 md:p-12"
+        >
+          {/* kraft paper: soft mottling + fine fibres + speckles */}
+          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: BOARD_TEXTURE }} />
+          <div className="relative grid grid-cols-2 gap-x-5 gap-y-9 sm:gap-x-8 md:grid-cols-4 md:gap-y-12">
             {travel.map((p, i) => (
               <Card key={i} p={p} i={i} />
             ))}
