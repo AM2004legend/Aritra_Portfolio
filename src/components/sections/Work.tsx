@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { moreProjects, projects, type Project } from "../../data/content";
 import { Chapter, ease } from "../ui/motion";
 import { HowrahClip } from "../decor/Ornaments";
+import ProjectModal from "../ui/ProjectModal";
+import { useCallback, useState } from "react";
 
 /* Postcard look per card: tone, tilt and a little vertical stagger. */
 const looks = [
@@ -22,7 +24,7 @@ const tones = {
 const GRAIN =
   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
 
-function Postcard({ p, i }: { p: Project; i: number }) {
+function Postcard({ p, i, onOpen }: { p: Project; i: number; onOpen: () => void }) {
   const look = looks[i % looks.length];
   const t = tones[look.tone];
   return (
@@ -32,7 +34,12 @@ function Postcard({ p, i }: { p: Project; i: number }) {
       whileHover={{ rotate: 0, y: look.y - 12, scale: 1.03, zIndex: 20 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.8, ease, delay: (i % 3) * 0.08 }}
-      className={`group relative aspect-[6/7] w-[min(86vw,360px)] overflow-hidden rounded-[14px] p-6 shadow-[0_26px_44px_-20px_rgba(23,48,107,0.5)] md:-mx-3 ${t.card}`}
+      onClick={onOpen}
+      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onOpen())}
+      role="button"
+      tabIndex={0}
+      aria-label={`${p.name}: watch the explainer`}
+      className={`group relative aspect-[6/7] w-[min(86vw,360px)] cursor-pointer overflow-hidden rounded-[14px] p-6 shadow-[0_26px_44px_-20px_rgba(23,48,107,0.5)] md:-mx-3 ${t.card}`}
     >
       {/* paper grain */}
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay" style={{ backgroundImage: GRAIN }} />
@@ -76,14 +83,18 @@ function Postcard({ p, i }: { p: Project; i: number }) {
           ))}
         </div>
 
-        <div className="mt-5 flex gap-4 font-[family-name:var(--font-mono)] text-[0.74rem] uppercase">
+        <div className="mt-5 flex items-center gap-4 font-[family-name:var(--font-mono)] text-[0.74rem] uppercase">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-current px-2.5 py-0.5 opacity-90 transition-opacity group-hover:opacity-100">
+            <svg viewBox="0 0 10 10" className="h-2 w-2" fill="currentColor"><path d="M2 1l7 4-7 4z" /></svg>
+            watch
+          </span>
           {p.github && (
-            <a href={p.github} target="_blank" rel="noreferrer" className="transition-opacity hover:opacity-70">
+            <a href={p.github} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="transition-opacity hover:opacity-70">
               [ code ↗ ]
             </a>
           )}
           {p.live && (
-            <a href={p.live} target="_blank" rel="noreferrer" className="transition-opacity hover:opacity-70">
+            <a href={p.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="transition-opacity hover:opacity-70">
               [ live ↗ ]
             </a>
           )}
@@ -94,6 +105,8 @@ function Postcard({ p, i }: { p: Project; i: number }) {
 }
 
 export default function Work() {
+  const [open, setOpen] = useState<Project | null>(null);
+  const close = useCallback(() => setOpen(null), []);
   return (
     <div className="relative overflow-hidden">
       {/* Howrah Bridge peeking in from the right edge */}
@@ -106,7 +119,7 @@ export default function Work() {
 
         <div className="flex flex-wrap justify-center gap-y-10 pb-10 md:gap-y-4">
           {projects.map((p, i) => (
-            <Postcard key={p.name} p={p} i={i} />
+            <Postcard key={p.name} p={p} i={i} onOpen={() => setOpen(p)} />
           ))}
         </div>
 
@@ -119,6 +132,7 @@ export default function Work() {
           ))}
         </div>
       </section>
+      <ProjectModal project={open} onClose={close} />
     </div>
   );
 }

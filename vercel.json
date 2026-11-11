@@ -1,0 +1,3 @@
+{
+  "rewrites": [{ "source": "/certificates", "destination": "/index.html" }]
+}

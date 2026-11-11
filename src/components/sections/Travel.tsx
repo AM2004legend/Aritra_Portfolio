@@ -14,6 +14,22 @@ const BOARD_TEXTURE = [
 const tilts = [-3, 2, -1.5, 3, 2.5, -2, 1.5, -2.5];
 const tapes = ["-rotate-6", "rotate-3", "-rotate-2", "rotate-6"];
 
+/** A loose postage stamp stuck on the board. */
+function Stamp({ src, className = "", rotate = 0, delay = 0 }: { src: string; className?: string; rotate?: number; delay?: number }) {
+  return (
+    <motion.img
+      src={src}
+      alt=""
+      aria-hidden
+      initial={{ opacity: 0, scale: 0.85, rotate: rotate * 2 }}
+      whileInView={{ opacity: 0.92, scale: 1, rotate }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.7, ease, delay }}
+      className={`pointer-events-none mix-blend-multiply ${className}`}
+    />
+  );
+}
+
 function Card({ p, i }: { p: Polaroid; i: number }) {
   const tilt = tilts[i % tilts.length];
   return (
@@ -69,10 +85,37 @@ export default function Travel() {
         >
           {/* kraft paper: soft mottling + fine fibres + speckles */}
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: BOARD_TEXTURE }} />
+
+          {/* vision-board extras: loose postage stamps in the corners (wider screens) */}
+          <Stamp src="/photos/stamp-ny.png" className="absolute left-6 top-6 hidden w-24 md:block" rotate={-12} delay={0.3} />
+          <Stamp src="/photos/stamp-washington.png" className="absolute right-8 top-8 hidden w-20 md:block" rotate={10} delay={0.4} />
+
+          {/* prayer flags strung across the top of the board */}
+          <motion.img
+            src="/photos/prayer-flags.png"
+            alt=""
+            aria-hidden
+            initial={{ opacity: 0, y: -12 }}
+            whileInView={{ opacity: 1, y: 0, rotate: [0, 0.8, -0.6, 0] }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{
+              opacity: { duration: 0.8 },
+              y: { duration: 0.8, ease },
+              rotate: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+            }}
+            className="pointer-events-none relative mx-auto -mt-2 mb-8 w-full origin-top drop-shadow-[0_8px_10px_rgba(60,40,15,0.25)] sm:w-[78%] md:mb-10 md:w-[58%]"
+          />
+
           <div className="relative grid grid-cols-2 gap-x-5 gap-y-9 sm:gap-x-8 md:grid-cols-4 md:gap-y-12">
             {travel.map((p, i) => (
               <Card key={i} p={p} i={i} />
             ))}
+          </div>
+
+          {/* stamps along the bottom */}
+          <div className="relative mt-10 flex items-end justify-between gap-4 md:mt-12">
+            <Stamp src="/photos/stamp-airmail.png" className="relative hidden w-36 md:block" rotate={5} delay={0.2} />
+            <Stamp src="/photos/stamps-cluster.png" className="relative mx-auto w-[86%] sm:w-[60%] md:mx-0 md:w-[320px]" rotate={-4} delay={0.3} />
           </div>
         </div>
       </div>

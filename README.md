@@ -20,6 +20,7 @@ npm run preview   # serve the production build locally
 ```
 public/
   photos/                 Web-optimised images used on the site
+  certificates/           Certificate images (WebP, 1600px wide)
   Aritra_Maity_Resume.pdf Résumé (download link)
   resume-page-1.webp      Résumé preview shown in the pop-up
   favicon.svg
@@ -27,8 +28,13 @@ src/
   main.tsx                Entry point
   App.tsx                 Page layout: sections in order
   index.css               Theme tokens, fonts and shared styles
+  lib/
+    router.ts             Tiny two-page router ("/" and "/certificates")
+  pages/
+    CertificatesPage.tsx  Certificates page
   data/
     content.ts            All text and photo lists (edit this to update the site)
+    certificates.ts       Certificate list (see CERTIFICATES.md)
   components/
     sections/             One file per page section
       Intro.tsx           "Hello / Meet / Aritra" poster intro
@@ -57,6 +63,7 @@ Most changes only need [`src/data/content.ts`](src/data/content.ts):
 - **Projects**: edit the `projects` array (name, one-line description, tags, links).
 - **Skills, education, highlights**: the arrays near the top of the file.
 - **Photos**: put the image in `public/photos/` and add it to `moments` (about grid), `photos` (hackathon gallery) or `travel` (polaroid board).
+- **Certificates**: follow [`CERTIFICATES.md`](CERTIFICATES.md). One image plus one entry in `src/data/certificates.ts`.
 - **Résumé**: replace `public/Aritra_Maity_Resume.pdf` and `public/resume-page-1.webp`.
 
 ## Deploying

@@ -4,6 +4,7 @@ import { education, highlights, profile, skills } from "../../data/content";
 import { ease, Magnetic, Reveal, SplitText } from "../ui/motion";
 import { useOpenResume } from "../layout/ResumeModal";
 import { scrollToId } from "../layout/SmoothScroll";
+import { navigate } from "../../lib/router";
 
 const ARCH = "999px 999px 0 0";
 
@@ -213,6 +214,25 @@ function Glance() {
           </div>
         </div>
       </div>
+
+      {/* link to the certificates page */}
+      <a
+        href="/certificates"
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("/certificates");
+        }}
+        className="group mt-14 flex flex-col items-center gap-2 text-center md:mt-16"
+      >
+        <span className="font-[family-name:var(--font-mono)] text-[0.74rem] tracking-[0.08em] text-ink-2 uppercase">
+          Courses &amp; credentials
+        </span>
+        <span className="relative font-[family-name:var(--font-poster)] text-[clamp(2.2rem,5vw,3.6rem)] leading-none uppercase text-navy">
+          View my certificates
+          <span className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+          <span className="absolute -bottom-1 left-0 h-[3px] w-full origin-left scale-x-0 bg-navy transition-transform duration-500 group-hover:scale-x-100" />
+        </span>
+      </a>
     </Reveal>
   );
 }

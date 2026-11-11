@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { lockScroll, scrollToId, scrollToTop } from "./SmoothScroll";
 import { useOpenResume } from "./ResumeModal";
 import { ease } from "../ui/motion";
+import { isCertificatesPath, navigate, usePath } from "../../lib/router";
 
 const links = [
   { id: "about", label: "About" },
@@ -19,6 +20,19 @@ export default function Nav() {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const path = usePath();
+  const onCerts = isCertificatesPath(path);
+
+  /** Section link: scroll on the home page, or go home and land on the section. */
+  const toSection = (id: string) => {
+    if (onCerts) navigate(`/#${id}`);
+    else scrollToId(id);
+  };
+  const toHome = () => {
+    if (onCerts) navigate("/");
+    else scrollToTop();
+  };
+  const toCerts = () => navigate("/certificates");
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -38,7 +52,7 @@ export default function Nav() {
   const go = (id: string) => {
     setMenuOpen(false);
     // let the menu close (and scroll unlock) before jumping
-    window.setTimeout(() => scrollToId(id), 350);
+    window.setTimeout(() => (id === "certificates" ? toCerts() : toSection(id)), 350);
   };
 
   return (
@@ -53,7 +67,7 @@ export default function Nav() {
         }`}
       >
         <div className={`mx-auto flex max-w-[1200px] items-center justify-between px-5 transition-all duration-500 md:px-10 ${scrolled ? "py-3" : "py-5 md:py-6"}`}>
-          <button onClick={scrollToTop} className="flex items-center gap-2.5 text-navy" aria-label="Back to top">
+          <button onClick={toHome} className="flex items-center gap-2.5 text-navy" aria-label="Home">
             <span className="font-[family-name:var(--font-hand)] text-[2.1rem] leading-none font-bold">Aritra</span>
           </button>
 
@@ -61,12 +75,21 @@ export default function Nav() {
             {links.map((l) => (
               <button
                 key={l.id}
-                onClick={() => scrollToId(l.id)}
+                onClick={() => toSection(l.id)}
                 className="caps link-draw !text-[0.68rem] text-ink-2 transition-colors hover:text-navy"
               >
                 {l.label}
               </button>
             ))}
+            <button
+              onClick={toCerts}
+              aria-current={onCerts ? "page" : undefined}
+              className={`caps rounded-full border px-3.5 py-1.5 !text-[0.68rem] transition-colors ${
+                onCerts ? "border-navy bg-navy text-white" : "border-navy/40 text-navy hover:bg-navy hover:text-white"
+              }`}
+            >
+              Certificates
+            </button>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -117,7 +140,7 @@ export default function Nav() {
             </div>
 
             <nav className="mt-14 flex flex-col gap-2">
-              {links.map((l, i) => (
+              {[...links, { id: "certificates", label: "Certificates" }].map((l, i) => (
                 <motion.button
                   key={l.id}
                   onClick={() => go(l.id)}
