@@ -68,7 +68,7 @@ export default function Nav() {
       >
         <div className={`mx-auto flex max-w-[1200px] items-center justify-between px-5 transition-all duration-500 md:px-10 ${scrolled ? "py-3" : "py-5 md:py-6"}`}>
           <button onClick={toHome} className="flex items-center gap-2.5 text-navy" aria-label="Home">
-            <span className="font-[family-name:var(--font-hand)] text-[2.1rem] leading-none font-bold">Aritra</span>
+            <span className="font-[family-name:var(--font-hand)] text-[2.1rem] leading-none font-bold whitespace-nowrap">Aritra Maity</span>
           </button>
 
           <nav className="hidden items-center gap-8 md:flex">
@@ -127,7 +127,7 @@ export default function Nav() {
             aria-label="Menu"
           >
             <div className="flex items-center justify-between">
-              <span className="font-[family-name:var(--font-hand)] text-[2.1rem] leading-none font-bold">Aritra</span>
+              <span className="font-[family-name:var(--font-hand)] text-[2.1rem] leading-none font-bold whitespace-nowrap">Aritra Maity</span>
               <button
                 onClick={() => setMenuOpen(false)}
                 aria-label="Close menu"

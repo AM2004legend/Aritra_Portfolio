@@ -221,15 +221,16 @@ export default function Intro() {
           <div className="relative w-full">
             <Word text="Hello" delay={0.3} className="text-[clamp(4rem,18vw,8rem)]" />
             <Sticker src="/photos/sticker-computer.webp" className="left-0 top-1/2 w-[17vw] max-w-[96px] -translate-y-1/2" rotate={-10} delay={1.0} />
-            <Sticker src="/photos/sticker-headphones.webp" className="right-0 top-1/2 w-[16vw] max-w-[92px] -translate-y-1/2" rotate={9} delay={1.15} />
+            <Sticker src="/photos/prayer-flags.png" className="right-[-2%] top-[2%] w-[27vw] max-w-[150px]" rotate={4} delay={1.15} />
           </div>
           <div className="relative mt-8 mb-14 flex w-full justify-center">
             <div className="h-[44svh] max-h-[440px]">
               <Portrait />
             </div>
-            <Sticker src="/photos/sticker-suitcase.webp" className="left-[-1%] top-[6%] w-[12vw] max-w-[70px]" rotate={-6} delay={1.3} />
+            <Sticker src="/photos/sticker-suitcase.webp" className="left-[5%] top-[10%] w-[12vw] max-w-[70px]" rotate={-6} delay={1.3} />
             <Sticker src="/photos/sticker-conch.webp" className="bottom-[2%] left-[-2%] w-[17vw] max-w-[96px]" rotate={-4} delay={1.45} />
-            <Sticker src="/photos/sticker-heart.webp" className="right-[-2%] top-[38%] w-[16vw] max-w-[92px]" rotate={8} delay={1.6} />
+            <Sticker src="/photos/sticker-headphones.webp" className="right-[4%] top-[20%] w-[16vw] max-w-[92px]" rotate={9} delay={1.4} />
+            <Sticker src="/photos/sticker-heart.webp" className="bottom-[6%] right-[-2%] w-[16vw] max-w-[92px]" rotate={8} delay={1.6} />
           </div>
           <div className="text-[clamp(1.2rem,5vw,1.8rem)]">
             <Typer />

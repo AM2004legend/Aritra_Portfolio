@@ -117,6 +117,41 @@ export default function Work() {
           Things I’ve <span className="italic">built.</span>
         </Chapter>
 
+        {/* handwritten hint pointing down at the cards */}
+        <motion.div
+          aria-hidden
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease, delay: 0.4 }}
+          className="pointer-events-none absolute right-4 top-[9.5rem] z-30 hidden w-[430px] -rotate-6 whitespace-nowrap md:block lg:right-12 lg:top-[10rem]"
+        >
+          <span className="block text-center font-[family-name:var(--font-scribble)] text-[2.7rem] leading-none text-navy">
+            click on the cards for more!
+          </span>
+          <svg viewBox="0 0 220 130" className="ml-6 mt-1 h-[120px] w-[200px] overflow-visible text-navy" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+            <motion.path
+              d="M150 6 C 168 40, 150 70, 110 78 C 78 84, 62 70, 74 58 C 86 48, 100 64, 88 86 C 76 106, 50 116, 22 122"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 1.2, ease: "easeInOut", delay: 0.8 }}
+            />
+            <motion.path
+              d="M36 108 L 20 123 L 41 128"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.35, ease: "easeOut", delay: 2 }}
+            />
+          </svg>
+        </motion.div>
+
+        {/* phones: a simple handwritten line */}
+        <p className="-mt-6 mb-8 font-[family-name:var(--font-scribble)] text-[2.1rem] leading-none text-navy md:hidden">
+          tap the cards for more ↓
+        </p>
+
         <div className="flex flex-wrap justify-center gap-y-10 pb-10 md:gap-y-4">
           {projects.map((p, i) => (
             <Postcard key={p.name} p={p} i={i} onOpen={() => setOpen(p)} />
